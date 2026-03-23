@@ -20,7 +20,6 @@
     "loglevel=3"
     "udev.log_level=3"
     "mitigations=off"
-    "intel_pstate=active"
     "nowatchdog"
   ];
 
@@ -63,7 +62,7 @@
     }
   '';
 
-  networking.hostName = "nixos";
+  networking.hostName = "nixer";
   networking.networkmanager.enable = true;
 
   time.timeZone = "Europe/Ljubljana";
@@ -96,7 +95,7 @@
 
   security.sudo.extraRules = [
     {
-      users = [ "rokk", "kmc" ];
+      users = [ "kmc" ];
       commands = [
         {
           command = "ALL";
@@ -115,40 +114,23 @@
 
   users.users = {
 
-kmc = {
-    isNormalUser = true;
-    description = "Rok Kambic";
-    extraGroups = [
-      "networkmanager"
-      "wheel"
-    ];
+    kmc = {
+      isNormalUser = true;
+      description = "Rok Kambic";
+      extraGroups = [
+        "networkmanager"
+        "wheel"
+      ];
+    };
+
   };
-
-rokk = {
-    isNormalUser = true;
-    description = "Rok Kambic";
-    extraGroups = [
-      "networkmanager"
-      "wheel"
-    ];
-    openssh.authorizedKeys.keys = [
-      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKsnY4xKXJzMqSOMVXb7P771QAkL+paZxLDt6nAHkTPO kamba@master"
-    ];
-    packages = with pkgs; [
-      kdePackages.kate
-    ];
-  };
-
-
-
-};
 
   programs.firefox.enable = true;
   programs.mtr.enable = true;
   programs.yazi.enable = true;
 
   services.openssh = {
-    enable = true;
+    enable = false;
     openFirewall = true;
     settings = {
       X11Forwarding = true;

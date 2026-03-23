@@ -16,23 +16,22 @@
 
   outputs = { self, nixpkgs, nixos-hardware, stylix,  ... }@inputs: {
 
-    nixosConfigurations.nixer = nixpkgs.lib.nixosSystem {
-      modules = [
-        stylix.nixosModules.stylix
-        nixos-hardware.nixosModules.lenovo-thinkpad-t14-amd-gen5
-        ./hosts/laptop/configuration.nix
-      ];
-    };
+nixosConfigurations.nixer = nixpkgs.lib.nixosSystem {
+  system = "x86_64-linux";   # 👈 REQUIRED
+  modules = [
+    stylix.nixosModules.stylix
+    nixos-hardware.nixosModules.lenovo-thinkpad-t14-amd-gen5
+    ./hosts/laptop/configuration.nix
+  ];
+};
 
-
-    nixosConfigurations.z4 = nixpkgs.lib.nixosSystem {
-      modules = [
-        # Import the previous configuration.nix we used,
-        # so the old configuration file still takes effect
-        stylix.nixosModules.stylix
-        
-        ./hosts/z4/configuration.nix
-      ];
-    };
+nixosConfigurations.z4 = nixpkgs.lib.nixosSystem {
+  system = "x86_64-linux";   # 👈 REQUIRED
+  specialArgs = { inherit inputs; };
+  modules = [
+    stylix.nixosModules.stylix
+    ./hosts/z4/configuration.nix
+  ];
+};
   };
 }

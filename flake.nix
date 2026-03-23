@@ -25,11 +25,13 @@
     };
 
 
-    nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
+    nixosConfigurations.z4 = nixpkgs.lib.nixosSystem {
       modules = [
         # Import the previous configuration.nix we used,
         # so the old configuration file still takes effect
-        ./configuration.nix
+        stylix.nixosModules.stylix
+        
+        ./hosts/z4/configuration.nix
       ];
     };
   };

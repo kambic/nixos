@@ -61,11 +61,34 @@
     memoryPercent = 100;
   };
 
+  # ─── Nix settings ──────────────────────────────────────────────────────────
+  nix.settings = {
+    experimental-features = [
+      "nix-command"
+      "flakes"
+    ];
+    auto-optimise-store = true;
+    download-buffer-size = 524288000;
+    max-jobs = 6;
+    cores = 2; # cores per individual builder process
+    substituters = [
+      "https://cache.nixos.org"
+      "https://noctalia.cachix.org"
+      "https://niri.cachix.org" # ← niri-flake binary cache
+    ];
+    trusted-public-keys = [
+      "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
+      "noctalia.cachix.org-1:FZ3ALcCPf2vd5ZfNMT1v3yLVaSN/yHjFyJJv6VGy7MY="
+      "niri.cachix.org-1:Wv0OmO7PsuocRKzfry9N242KbEMHfDLqJbfnssqvFiM=" # ← niri-flake key
+    ];
+  };
+  # nixpkgs.config.allowUnfree = true;
+  nix.gc = {
+    automatic = true;
+    dates = "weekly";
+    options = "--delete-older-than 7d";
+  };
 
-  nix.settings.experimental-features = [
-    "nix-command"
-    "flakes"
-  ];
   environment.systemPackages = with pkgs; [
     wget
     git
@@ -189,39 +212,24 @@
       PasswordAuthentication = false;
     };
   };
-stylix = {
-  enable = true;
-  polarity = "dark";
-  base16Scheme = ../../themes/no-clown-fiesta.yaml;
+  stylix = {
+    enable = true;
+    autoEnable = true;
+    polarity = "dark";
+    base16Scheme = "${pkgs.base16-schemes}/share/themes/gruvbox-dark-hard.yaml";
+    # base16Scheme = ../../themes/no-clown-fiesta.yaml;
 
-  targets = {
-    qt.enable = true;
-    kde.enable = true; # if available in your Stylix version
-  };
-
-  cursor = {
-    package = pkgs.phinger-cursors;
-    name = "phinger-cursors-dark";
-    size = 24;
-  };
-
-  fonts = {
-    sansSerif = {
-      package = pkgs.ibm-plex;
-      name = "IBM Plex Sans";
+    targets = {
+      qt.enable = true;
+      # kde.enable = true; # if available in your Stylix version
     };
 
-    serif = {
-      package = pkgs.ibm-plex;
-      name = "IBM Plex Sans";
-    };
-
-    monospace = {
-      package = pkgs.nerd-fonts.blex-mono;
-      name = "BlexMono Nerd Font";
+    fonts = {
+      serif = config.stylix.fonts.monospace;
+      sansSerif = config.stylix.fonts.monospace;
+      emoji = config.stylix.fonts.monospace;
     };
   };
-};
   nixpkgs.config.allowUnfree = true;
 
   system.stateVersion = "25.11";

@@ -1,37 +1,72 @@
 {
-  description = "A simple NixOS flake";
+  description = "My simple NixOS flake"; # come up with better descriptiom
 
   inputs = {
-    # NixOS official package source, using the nixos-25.11 branch here
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.11";
-    nixos-hardware.url = "github:NixOS/nixos-hardware/master";
- 
-    stylix = {
-          url = "github:danth/stylix/release-25.11";
-      # url = "github:nix-community/stylix";
+    # NixOS official package source
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-25.11";
+
+    # home-manager
+    home-manager = {
+      url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    stylix = {
+      url = "github:nix-community/stylix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    zen-browser = {
+      url = "github:youwen5/zen-browser-flake";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    niri = {
+      url = "github:sodiboo/niri-flake";
+    };
+
+    noctalia = {
+      url = "github:noctalia-dev/noctalia-shell";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
-  outputs = { self, nixpkgs, nixos-hardware, stylix,  ... }@inputs: {
+  outputs = {
+    self,
+    nixpkgs,
+    nixpkgs-stable,
+    home-manager,
+    stylix,
+    ...
+  } @ inputs: let
+    system = "x86_64-linux";
+    user = "kmc";
+  in {
+    # system hostname
+    nixosConfigurations.z4 = nixpkgs.lib.nixosSystem {
+      specialArgs = {
+        pkgs-stable = import nixpkgs-stable {
+          inherit system;
+          config.allowUnfree = true;
+        };
+        inherit inputs system;
+      };
+      modules = [
+        ./nixos/configuration.nix
+        home-manager.nixosModules.home-manager
+        {
+          home-manager = {
+            useGlobalPkgs = true;
+            useUserPackages = true;
+            users.${user} = ./home-manager/home.nix;
+            backupFileExtension = "backup";
 
-nixosConfigurations.nixer = nixpkgs.lib.nixosSystem {
-  system = "x86_64-linux";   # 👈 REQUIRED
-  modules = [
-    stylix.nixosModules.stylix
-    nixos-hardware.nixosModules.lenovo-thinkpad-t14-amd-gen5
-    ./hosts/laptop/configuration.nix
-  ];
-};
-
-nixosConfigurations.z4 = nixpkgs.lib.nixosSystem {
-  system = "x86_64-linux";   # 👈 REQUIRED
-  specialArgs = { inherit inputs; };
-  modules = [
-    stylix.nixosModules.stylix
-    ./hosts/z4/configuration.nix
-  ];
-};
+            extraSpecialArgs = {inherit inputs user;};
+          };
+        }
+        stylix.nixosModules.stylix
+      ];
+    };
   };
 }

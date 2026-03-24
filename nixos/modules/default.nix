@@ -1,6 +1,5 @@
 {
   imports = [
-    ./bootloader.nix
     ./bluetooth.nix
     ./sound.nix
     ./network.nix

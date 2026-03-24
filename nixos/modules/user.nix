@@ -7,7 +7,7 @@
 
     users.kmc = {
       isNormalUser = true;
-      description = "kmc";
+      description = "Rok Kambic";
       extraGroups = ["networkmanager" "wheel" "input"];
       packages = with pkgs; [];
     };

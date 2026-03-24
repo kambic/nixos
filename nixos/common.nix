@@ -1,6 +1,8 @@
 {
   config,
   pkgs,
+  pkgs-stable,
+  inputs,
   ...
 }: {
   imports = [
@@ -25,6 +27,8 @@
     dates = "weekly";
     options = "--delete-older-than 7d";
   };
+
+  nixpkgs.config.allowUnfree = true;
 
   #################################
   # Boot
@@ -56,7 +60,7 @@
 
     plymouth = {
       enable = true;
-      theme = "stylix";
+    #   theme = "catppuccin-mocha";
     };
   };
 
@@ -153,15 +157,16 @@
   # System packages (minimal)
   #################################
   environment.systemPackages = with pkgs; [
+    # Development
     wget
     git
     neovim
     vscode
+    vscodium
     glances
     fish
     ffmpeg
     htop
-    vscode
     ripgrep
     tree-sitter
     nh
@@ -170,26 +175,65 @@
     nixfmt
     nixfmt-tree
     home-manager
+    nodejs
+    gnumake
+    libgcc
+    llvmPackages_20.clang-tools
 
-    pavucontrol
-
-    alacritty
+    # Desktop apps
     kitty
-
-    git
-    lazygit
-
-    nh
+    alacritty
     fuzzel
+    thunderbird
+    vlc
+    discord
+    libreoffice
+    blender
+    mangohud
+    via
+
+    # CLI utils
+    tree
+    nix-index
+    unzip
+    zip
+    yt-dlp
+    bluez
+    bluez-tools
+    pciutils
+    aria2
+    rar
+    unrar
+    lazygit
+    alejandra
+    wireplumber
+
+    # GUI utils
+    pavucontrol
+    mako
+    swappy
+
+    # Wayland
+    xwayland
+    xwayland-satellite
     wl-clipboard
+    cliphist
     swaybg
     swaylock
     swayidle
-    xwayland-satellite
 
     # Notifications
     libnotify
-    mako
+
+    # Stable packages
+    pkgs-stable.bottles
+    pkgs-stable.texlab
+
+    # From flake inputs
+    inputs.zen-browser.packages.${pkgs.system}.default
+    xivlauncher
+    protonplus
+    forge-mtg
   ];
 
   #################################

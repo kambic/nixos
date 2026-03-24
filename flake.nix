@@ -54,10 +54,6 @@
         };
         inherit inputs system;
       };
-      pkgs = import nixpkgs {
-        inherit system;
-        config.allowUnfree = true;
-      };
       modules = [
         ./nixos/hosts/z4/configuration.nix
         home-manager.nixosModules.home-manager
@@ -84,10 +80,6 @@
           config.allowUnfree = true;
         };
         inherit inputs system;
-      };
-      pkgs = import nixpkgs {
-        inherit system;
-        config.allowUnfree = true;
       };
       modules = [
         ./nixos/configuration.nix

@@ -25,7 +25,7 @@
 
   imports = [
     # Include the results of the hardware scan.
-    ./packages.nix
+    ./common.nix
     ./modules/default.nix
   ];
 
@@ -56,9 +56,6 @@
 
   # Enable CUPS to print documents.
   services.printing.enable = true;
-
-  # Allow unfree packages
-  nixpkgs.config.allowUnfree = true;
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions

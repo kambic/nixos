@@ -1,4 +1,5 @@
 {
+  config,
   pkgs,
   inputs,
   ...
@@ -11,6 +12,10 @@
     noto-fonts-lgc-plus
     noto-fonts-color-emoji
   ];
+
+  gtk = {
+    gtk4.theme = config.gtk.theme;
+  };
 
   stylix = {
     enable = true;

@@ -46,12 +46,17 @@
     # system hostname
 
     nixosConfigurations.z4 = nixpkgs.lib.nixosSystem {
+      system = "x86_64-linux";
       specialArgs = {
         pkgs-stable = import nixpkgs-stable {
           inherit system;
           config.allowUnfree = true;
         };
         inherit inputs system;
+      };
+      pkgs = import nixpkgs {
+        inherit system;
+        config.allowUnfree = true;
       };
       modules = [
         ./nixos/hosts/z4/configuration.nix
@@ -72,12 +77,17 @@
     
 
     nixosConfigurations.nixer = nixpkgs.lib.nixosSystem {
+      system = "x86_64-linux";
       specialArgs = {
         pkgs-stable = import nixpkgs-stable {
           inherit system;
           config.allowUnfree = true;
         };
         inherit inputs system;
+      };
+      pkgs = import nixpkgs {
+        inherit system;
+        config.allowUnfree = true;
       };
       modules = [
         ./nixos/configuration.nix

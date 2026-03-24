@@ -2,6 +2,7 @@
 
 {
   imports = [
+    ../../common.nix
     ./hardware-configuration.nix
 
   ];
@@ -11,23 +12,11 @@
   #################################
 
   boot = {
-    loader = {
-      systemd-boot.enable = true;
-      efi = {
-        canTouchEfiVariables = true;
-      };
-    };
-
-    kernelPackages = pkgs.linuxPackages;
-
     kernelParams = [
-      "quiet"
-      "splash"
       "loglevel=3"
       "udev.log_level=3"
       "mitigations=off"
       "intel_pstate=active"
-      "nowatchdog"
     ];
 
     extraModprobeConfig = ''
@@ -35,40 +24,12 @@
       options amdgpu ppfeaturemask=0xfff7ffff freesync_video=1 dpm=1 runpm=0
       options hid_apple fnmode=0
     '';
-
-    # Tune kernel swap behaviour so RAM is preferred over zram until necessary
-    kernel.sysctl = {
-      "kernel.sysrq" = 1;
-    };
-
-    consoleLogLevel = 3;
-    initrd.verbose = false;
-
-    plymouth = {
-      enable = true;
-      theme = "stylix";
-
-    };
   };
 
-  # ─── ZRAM swap (prevents OOM freezes during heavy builds like Quickshell) ──
-  # Creates a compressed RAM-backed swap device — no disk writes, much faster.
-  zramSwap = {
-    enable = false;
-    algorithm = "zstd"; # best compression/speed ratio
-    # memoryPercent = 100 means the zram device can hold up to 100% of RAM
-    # when compressed. Effective real swap is ~2-3x that in practice.
-    memoryPercent = 100;
-  };
+  zramSwap.enable = false;
 
   # ─── Nix settings ──────────────────────────────────────────────────────────
   nix.settings = {
-    experimental-features = [
-      "nix-command"
-      "flakes"
-    ];
-    auto-optimise-store = true;
-    download-buffer-size = 524288000;
     max-jobs = 6;
     cores = 2; # cores per individual builder process
     substituters = [
@@ -82,32 +43,7 @@
       "niri.cachix.org-1:Wv0OmO7PsuocRKzfry9N242KbEMHfDLqJbfnssqvFiM=" # ← niri-flake key
     ];
   };
-  # nixpkgs.config.allowUnfree = true;
-  nix.gc = {
-    automatic = true;
-    dates = "weekly";
-    options = "--delete-older-than 7d";
-  };
 
-  environment.systemPackages = with pkgs; [
-    wget
-    git
-    neovim
-    vscode
-    glances
-    fish
-    ffmpeg
-    htop
-    vscode
-    ripgrep
-    tree-sitter
-    nh
-    nil
-    nixd # lsp
-    nixfmt
-    home-manager
-  ];
-  environment.variables.EDITOR = "nvim";
   environment.etc."nixd/nixd.json".text = ''
     {
       "options": {
@@ -119,22 +55,6 @@
   '';
 
   networking.hostName = "z4";
-  networking.networkmanager.enable = true;
-
-  time.timeZone = "Europe/Ljubljana";
-
-  i18n.defaultLocale = "en_US.UTF-8";
-  i18n.extraLocaleSettings = {
-    LC_ADDRESS = "sl_SI.UTF-8";
-    LC_IDENTIFICATION = "sl_SI.UTF-8";
-    LC_MEASUREMENT = "sl_SI.UTF-8";
-    LC_MONETARY = "sl_SI.UTF-8";
-    LC_NAME = "sl_SI.UTF-8";
-    LC_NUMERIC = "sl_SI.UTF-8";
-    LC_PAPER = "sl_SI.UTF-8";
-    LC_TELEPHONE = "sl_SI.UTF-8";
-    LC_TIME = "sl_SI.UTF-8";
-  };
 
   services.xserver.enable = true;
   services.displayManager.sddm.enable = true;
@@ -145,9 +65,6 @@
   };
 
   services.printing.enable = false;
-
-  services.pulseaudio.enable = false;
-  security.rtkit.enable = true;
 
   security.sudo.extraRules = [
     {

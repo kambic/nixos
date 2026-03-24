@@ -81,13 +81,6 @@
     }
   ];
 
-  services.pipewire = {
-    enable = true;
-    alsa.enable = true;
-    alsa.support32Bit = true;
-    pulse.enable = true;
-  };
-
   users.users = {
 
     kmc = {
@@ -116,8 +109,6 @@
 
   };
 
-  programs.firefox.enable = true;
-  programs.mtr.enable = true;
   programs.yazi.enable = true;
 
   services.openssh = {
@@ -129,12 +120,10 @@
       PasswordAuthentication = false;
     };
   };
+
   stylix = {
-    enable = true;
     autoEnable = true;
-    polarity = "dark";
     base16Scheme = "${pkgs.base16-schemes}/share/themes/gruvbox-dark-hard.yaml";
-    # base16Scheme = ../../themes/no-clown-fiesta.yaml;
 
     targets = {
       qt.enable = true;
@@ -147,6 +136,7 @@
       emoji = config.stylix.fonts.monospace;
     };
   };
+
   nixpkgs.config.allowUnfree = true;
 
   system.stateVersion = "25.11";

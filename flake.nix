@@ -66,7 +66,7 @@
             extraSpecialArgs = {inherit inputs user;};
           };
         }
-        stylix.nixosModules.stylix
+        # stylix.nixosModules.stylix
       ];
     };
     

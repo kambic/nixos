@@ -22,7 +22,6 @@
     autoEnable = true;
 
     image = ./Wallpapers/TreeLake.png;
-    polarity = "dark";
 
     fonts = {
       monospace = {
@@ -38,7 +37,7 @@
         package = pkgs.noto-fonts;
       };
       emoji = {
-        name = "Noto color Emoji";
+        name = "Noto Color Emoji";
         package = pkgs.noto-fonts-color-emoji;
       };
     };

@@ -109,8 +109,6 @@
 
   };
 
-  programs.yazi.enable = true;
-
   services.openssh = {
     enable = true;
     openFirewall = true;
@@ -118,22 +116,6 @@
       X11Forwarding = true;
       PermitRootLogin = "no";
       PasswordAuthentication = false;
-    };
-  };
-
-  stylix = {
-    autoEnable = true;
-    base16Scheme = "${pkgs.base16-schemes}/share/themes/gruvbox-dark-hard.yaml";
-
-    targets = {
-      qt.enable = true;
-      # kde.enable = true; # if available in your Stylix version
-    };
-
-    fonts = {
-      serif = config.stylix.fonts.monospace;
-      sansSerif = config.stylix.fonts.monospace;
-      emoji = config.stylix.fonts.monospace;
     };
   };
 

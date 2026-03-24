@@ -61,7 +61,6 @@
       "niri.cachix.org-1:Wv0OmO7PsuocRKzfry9N242KbEMHfDLqJbfnssqvFiM=" # ← niri-flake key
     ];
   };
-  nixpkgs.config.allowUnfree = true;
 
   # ─── User account ──────────────────────────────────────────────────────────
   users.users.kmc = {

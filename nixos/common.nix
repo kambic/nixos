@@ -84,7 +84,6 @@
   # Locale
   #################################
 
-  time.timeZone = "Europe/Ljubljana";
   i18n.defaultLocale = "en_US.UTF-8";
 
   i18n.extraLocaleSettings = {
@@ -235,10 +234,4 @@
     protonplus
     forge-mtg
   ];
-
-  #################################
-  # State
-  #################################
-
-  system.stateVersion = "25.11";
 }

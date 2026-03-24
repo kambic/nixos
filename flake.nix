@@ -44,7 +44,34 @@
     user = "kmc";
   in {
     # system hostname
+
     nixosConfigurations.z4 = nixpkgs.lib.nixosSystem {
+      specialArgs = {
+        pkgs-stable = import nixpkgs-stable {
+          inherit system;
+          config.allowUnfree = true;
+        };
+        inherit inputs system;
+      };
+      modules = [
+        ./nixos/hosts/z4/configuration.nix
+        home-manager.nixosModules.home-manager
+        {
+          home-manager = {
+            useGlobalPkgs = true;
+            useUserPackages = true;
+            users.${user} = ./home-manager/home.nix;
+            backupFileExtension = "backup";
+
+            extraSpecialArgs = {inherit inputs user;};
+          };
+        }
+        stylix.nixosModules.stylix
+      ];
+    };
+    
+
+    nixosConfigurations.nixer = nixpkgs.lib.nixosSystem {
       specialArgs = {
         pkgs-stable = import nixpkgs-stable {
           inherit system;
@@ -68,5 +95,7 @@
         stylix.nixosModules.stylix
       ];
     };
+    
+
   };
 }

@@ -205,5 +205,4 @@
   #################################
 
   system.stateVersion = "25.11";
-}</content>
-<parameter name="filePath">/home/kmc/nixos/nixos/common.nix
+}

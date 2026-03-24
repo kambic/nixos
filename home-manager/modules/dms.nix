@@ -7,7 +7,6 @@
 }: {
   imports = [
     dms.homeModules.dank-material-shell
-    dms.homeModules.niri
   ];
 
   programs.dank-material-shell = {
@@ -21,23 +20,8 @@
     enableCalendarEvents = true;
     enableClipboardPaste = true;
 
-    # niri integration
-    niri = {
-      enableKeybinds = true;
-      enableSpawn = true;
-
-      includes = {
-        enable = true;
-        override = true;
-        filesToInclude = [
-          "alttab"
-          "binds"
-          "colors"
-          "layout"
-          "outputs"
-          "wpblur"
-        ];
-      };
-    };
+    # Auto-start with systemd
+    systemd.enable = true;
+    systemd.restartIfChanged = true;
   };
 }

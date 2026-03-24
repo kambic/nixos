@@ -30,8 +30,8 @@
 
   # ─── Nix settings ──────────────────────────────────────────────────────────
   nix.settings = {
-    max-jobs = 6;
-    cores = 2; # cores per individual builder process
+    # max-jobs = 6;
+    # cores = 2; # cores per individual builder process
     substituters = [
       "https://cache.nixos.org"
       "https://noctalia.cachix.org"

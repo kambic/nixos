@@ -8,7 +8,6 @@
     ./steam.nix
     ./cachix.nix
     ./niri.nix
-    ./stylix.nix
     ./yazi.nix
   ];
 }

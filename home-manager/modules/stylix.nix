@@ -20,25 +20,29 @@
   stylix = {
     enable = true;
     autoEnable = true;
+    polarity = "dark";
+    base16Scheme = "${pkgs.base16-schemes}/share/themes/gruvbox-dark-hard.yaml";
 
     image = ./Wallpapers/TreeLake.png;
 
+    cursor = {
+      package = pkgs.bibata-cursors;
+      name = "Bibata-Modern-Classic";
+      size = 24;
+    };
+
     fonts = {
       monospace = {
-        name = "Jetbrains Mono";
-        package = pkgs.jetbrains-mono;
+        package = pkgs.nerd-fonts.jetbrains-mono;
+        name = "JetBrains Mono Nerd Font";
       };
       sansSerif = {
-        name = "Noto Sans";
         package = pkgs.noto-fonts;
+        name = "Noto Sans";
       };
       serif = {
-        name = "Noto Serif";
         package = pkgs.noto-fonts;
-      };
-      emoji = {
-        name = "Noto Color Emoji";
-        package = pkgs.noto-fonts-color-emoji;
+        name = "Noto Serif";
       };
     };
   };

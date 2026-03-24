@@ -30,6 +30,11 @@
       url = "github:noctalia-dev/noctalia-shell";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    dms = {
+      url = "github:AvengeMedia/DankMaterialShell/stable";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = {
@@ -38,6 +43,7 @@
     nixpkgs-stable,
     home-manager,
     stylix,
+    dms,
     ...
   } @ inputs: let
     system = "x86_64-linux";
@@ -64,7 +70,7 @@
             users.${user} = ./home-manager/home.nix;
             backupFileExtension = "backup";
 
-            extraSpecialArgs = {inherit inputs user;};
+            extraSpecialArgs = {inherit inputs user dms;};
           };
         }
         stylix.nixosModules.stylix
@@ -91,7 +97,7 @@
             users.${user} = ./home-manager/home.nix;
             backupFileExtension = "backup";
 
-            extraSpecialArgs = {inherit inputs user;};
+            extraSpecialArgs = {inherit inputs user dms;};
           };
         }
         stylix.nixosModules.stylix

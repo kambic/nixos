@@ -4,5 +4,6 @@
     ./fish.nix
     ./stylix.nix
     ./noctalia.nix
+    ./dms.nix
   ];
 }

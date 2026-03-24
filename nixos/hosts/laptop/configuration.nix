@@ -108,6 +108,9 @@ in
 
   programs.niri.enable = true;
 
+  # Disable niri-flake's polkit agent to avoid conflicts with DMS
+  systemd.user.services.niri-flake-polkit.enable = false;
+
   services = {
     libinput.enable = true;
 

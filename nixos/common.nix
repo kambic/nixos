@@ -141,26 +141,6 @@
     };
   };
 
-  # Themes
-  stylix = {
-    enable = true;
-    autoEnable = true;
-    polarity = "dark";
-    base16Scheme = "${pkgs.base16-schemes}/share/themes/gruvbox-dark-hard.yaml";
-    # base16Scheme = ../../themes/no-clown-fiesta.yaml;
-
-    targets = {
-      qt.enable = true;
-      # kde.enable = true; # if available in your Stylix version
-    };
-
-    # fonts = {
-    #   serif = config.stylix.fonts.monospace;
-    #   sansSerif = config.stylix.fonts.monospace;
-    #   emoji = config.stylix.fonts.monospace;
-    # };
-  };
-
   environment = {
     sessionVariables = {
       NIXOS_OZONE_WL = "1";

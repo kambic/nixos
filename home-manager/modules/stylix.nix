@@ -16,8 +16,6 @@
     enable = true;
     autoEnable = true;
 
-    base16Scheme = "${pkgs.base16-schemes}/share/themes/catppuccin-latte.yaml";
-
     image = ./Wallpapers/TreeLake.png;
     polarity = "dark";
 

@@ -78,7 +78,7 @@
     };
     
 
-    nixosConfigurations.nixer = nixpkgs.lib.nixosSystem {
+    nixosConfigurations.t14 = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
       specialArgs = {
         pkgs-stable = import nixpkgs-stable {

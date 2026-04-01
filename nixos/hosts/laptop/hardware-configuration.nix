@@ -29,7 +29,7 @@
     options = [ "subvol=@" ];
   };
 
-  fileSystems."/home" = {
+  ."/home" = {
     device = "/dev/disk/by-uuid/d5110b0a-af45-45cc-b280-ecbf732caecf";
     fsType = "btrfs";
     options = [ "subvol=@home" ];

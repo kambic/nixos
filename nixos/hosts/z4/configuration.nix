@@ -110,7 +110,18 @@
     enable = true;
       package = pkgs.postgresql_17;
     ensureDatabases = [ "kmc" ];
-    ensureUsers = [ "kmc" ];
+    ensureUsers = [ 
+      
+        {
+    name = "alligator";
+  }
+  {
+    name = "kmc";
+    ensureDBOwnership = true;
+  }
+
+      
+      ];
     authentication = pkgs.lib.mkOverride 10 ''
       #type database  DBuser  auth-method
       local all       all     trust

@@ -12,8 +12,19 @@
   #################################
   # Nix
   #################################
-
   nix.settings = {
+    # max-jobs = 6;
+    # cores = 2; # cores per individual builder process
+    substituters = [
+      "https://cache.nixos.org"
+      "https://noctalia.cachix.org"
+      "https://niri.cachix.org" # ← niri-flake binary cache
+    ];
+    trusted-public-keys = [
+      "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
+      "noctalia.cachix.org-1:FZ3ALcCPf2vd5ZfNMT1v3yLVaSN/yHjFyJJv6VGy7MY="
+      "niri.cachix.org-1:Wv0OmO7PsuocRKzfry9N242KbEMHfDLqJbfnssqvFiM=" # ← niri-flake key
+    ];
     experimental-features = [
       "nix-command"
       "flakes"
@@ -161,6 +172,7 @@
     git
     neovim
     vscode
+    jetbrains.pycharm
     vscodium
     glances
     fish

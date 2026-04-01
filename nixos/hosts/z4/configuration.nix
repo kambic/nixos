@@ -29,20 +29,7 @@
   zramSwap.enable = false;
 
   # ─── Nix settings ──────────────────────────────────────────────────────────
-  nix.settings = {
-    # max-jobs = 6;
-    # cores = 2; # cores per individual builder process
-    substituters = [
-      "https://cache.nixos.org"
-      "https://noctalia.cachix.org"
-      "https://niri.cachix.org" # ← niri-flake binary cache
-    ];
-    trusted-public-keys = [
-      "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
-      "noctalia.cachix.org-1:FZ3ALcCPf2vd5ZfNMT1v3yLVaSN/yHjFyJJv6VGy7MY="
-      "niri.cachix.org-1:Wv0OmO7PsuocRKzfry9N242KbEMHfDLqJbfnssqvFiM=" # ← niri-flake key
-    ];
-  };
+
 
   environment.etc."nixd/nixd.json".text = ''
     {
@@ -115,8 +102,19 @@
     settings = {
       X11Forwarding = true;
       PermitRootLogin = "no";
-      PasswordAuthentication = false;
+      PasswordAuthentication = true;
     };
+  };
+
+  services.postgresql = {
+    enable = true;
+      package = pkgs.postgresql_17;
+    ensureDatabases = [ "kmc" ];
+    ensureUsers = [ "kmc" ];
+    authentication = pkgs.lib.mkOverride 10 ''
+      #type database  DBuser  auth-method
+      local all       all     trust
+    '';
   };
 
   system.stateVersion = "25.11";

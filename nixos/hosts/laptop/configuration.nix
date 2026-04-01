@@ -1,18 +1,10 @@
 { config, pkgs, ... }:
 
-let
-  commonGroups = [
-    "wheel"
-    "networkmanager"
-    "video"
-    "input"
-    "uucp"
-  ];
-in
 {
   imports = [
     ../../common.nix
     ./hardware-configuration.nix
+
   ];
 
   #################################
@@ -20,14 +12,6 @@ in
   #################################
 
   boot = {
-    loader = {
-      systemd-boot.xbootldrMountPoint = "/boot";
-
-      efi = {
-        efiSysMountPoint = "/efi";
-      };
-    };
-
     kernelParams = [
       "amd_pstate=active"
       "amdgpu.gpu_recovery=1"
@@ -55,199 +39,96 @@ in
     HandlePowerKeyLongPress = "poweroff";
   };
 
-  # Power management
-  powerManagement = {
-    enable = true;
-    powertop.enable = true;
+  # ─── Nix settings ──────────────────────────────────────────────────────────
+  nix.settings = {
+    # max-jobs = 6;
+    # cores = 2; # cores per individual builder process
+    substituters = [
+      "https://cache.nixos.org"
+      "https://noctalia.cachix.org"
+      "https://niri.cachix.org" # ← niri-flake binary cache
+    ];
+    trusted-public-keys = [
+      "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
+      "noctalia.cachix.org-1:FZ3ALcCPf2vd5ZfNMT1v3yLVaSN/yHjFyJJv6VGy7MY="
+      "niri.cachix.org-1:Wv0OmO7PsuocRKzfry9N242KbEMHfDLqJbfnssqvFiM=" # ← niri-flake key
+    ];
   };
 
-  services.tlp = {
-    enable = true;
-    settings = {
-      CPU_BOOST_ON_AC = 0;
-      CPU_BOOST_ON_BAT = 0;
-      CPU_SCALING_GOVERNOR_ON_AC = "performance";
-      CPU_SCALING_GOVERNOR_ON_BAT = "powersave";
-      START_CHARGE_THRESH_BAT0 = 40;
-      STOP_CHARGE_THRESH_BAT0 = 85;
-    };
+  environment.etc."nixd/nixd.json".text = ''
+    {
+      "options": {
+        "nixos": {
+          "expr": "(import <nixpkgs/nixos> {}).options"
+        }
+      }
+    }
+  '';
+
+  networking.hostName = "t14";
+
+  services.xserver.enable = true;
+  services.displayManager.sddm.enable = true;
+  services.desktopManager.plasma6.enable = true;
+
+  services.xserver.xkb = {
+    layout = "us";
   };
 
-  #################################
-  # Networking
-  #################################
+  services.printing.enable = false;
 
-  networking = {
-    hostName = "nixer";
-
-    networkmanager = {
-      ensureProfiles.profiles = {
-        "MyWiFi" = {
-          connection = {
-            id = "MyWiFi";
-            type = "wifi";
-            autoconnect = true;
-          };
-          wifi = {
-            ssid = "Loading...";
-            mode = "infrastructure";
-          };
-          wifi-security = {
-            key-mgmt = "wpa-psk";
-            psk = "kambic001";
-          };
-          ipv4.method = "auto";
-          ipv6.method = "auto";
-        };
-      };
-    };
-  };
-  #################################
-  # Wayland (Niri only)
-  #################################
-
-  programs.niri.enable = true;
-
-  # Disable niri-flake's polkit agent to avoid conflicts with DMS
-  systemd.user.services.niri-flake-polkit.enable = false;
-
-  services = {
-    libinput.enable = true;
-
-    # Enable the X11 windowing system.
-    xserver = {
-      enable = true;
-
-      xkb = {
-        layout = "us";
-        variant = "";
-      };
-    };
-
-    greetd = {
-      enable = true;
-      settings = {
-        default_session = {
-          command = "${pkgs.tuigreet}/bin/tuigreet --asterisks --remember --time";
-          user = "greeter";
-        };
-      };
-    };
-
-    pipewire.wireplumber.enable = true;
-
-    gnome.gnome-keyring.enable = true;
-    fwupd.enable = true;
-    fprintd.enable = true;
-    power-profiles-daemon.enable = false;
-
-  };
-
-  xdg.portal = {
-    enable = true;
-    extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
-  };
-
-  #################################
-  # Graphics
-  #################################
-
-  hardware.graphics = {
-    enable = true;
-    enable32Bit = true;
-  };
-
-  #################################
-  # Power
-  #################################
-
-  powerManagement.cpuFreqGovernor = "schedutil";
-
-  #################################
-  # Users
-  #################################
+  security.sudo.extraRules = [
+    {
+      users = [
+        "rokk"
+        "kmc"
+      ];
+      commands = [
+        {
+          command = "ALL";
+          options = [ "NOPASSWD" ];
+        }
+      ];
+    }
+  ];
 
   users.users = {
-    rok = {
-      isNormalUser = true;
-      description = "Rok";
-      shell = pkgs.zsh;
-      extraGroups = commonGroups;
-    };
 
     kmc = {
       isNormalUser = true;
-      description = "Kmc";
-      shell = pkgs.zsh;
-      extraGroups = commonGroups;
+      description = "Rok Kambic";
+      extraGroups = [
+        "networkmanager"
+        "wheel"
+      ];
+    };
+
+    rokk = {
+      isNormalUser = true;
+      description = "Rok Kambic";
+      extraGroups = [
+        "networkmanager"
+        "wheel"
+      ];
+      openssh.authorizedKeys.keys = [
+        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKsnY4xKXJzMqSOMVXb7P771QAkL+paZxLDt6nAHkTPO kamba@master"
+      ];
+      packages = with pkgs; [
+        kdePackages.kate
+      ];
+    };
+
+  };
+
+  services.openssh = {
+    enable = true;
+    openFirewall = true;
+    settings = {
+      X11Forwarding = true;
+      PermitRootLogin = "no";
+      PasswordAuthentication = true;
     };
   };
 
-  #################################
-  # Security
-  #################################
-
-  security = {
-    sudo.wheelNeedsPassword = false;
-    polkit.enable = true;
-    pam.services.swaylock = { };
-
-    pam.services = {
-      greetd-password.enableGnomeKeyring = true;
-      greetd.enableGnomeKeyring = true;
-      hyprland = {
-        enableGnomeKeyring = true;
-        gnupg.enable = true;
-      };
-      swaylock = {};
-    };
-  };
-
-  #################################
-  # Programs
-  #################################
-
-  programs = {
-    zsh.enable = true;
-    fish.enable = true;
-
-    waybar.enable = true;
-    seahorse.enable = true;
-    neovim = {
-      enable = true;
-      defaultEditor = true;
-    };
-
-    gnupg.agent = {
-      enable = true;
-      enableSSHSupport = true;
-    };
-  };
-
-  # Themes
-  stylix = {
-    base16Scheme = ../../themes/no-clown-fiesta.yaml;
-    cursor = {
-      package = pkgs.phinger-cursors;
-      name = "phinger-cursors-dark";
-      size = 24;
-    };
-    fonts = rec {
-      sansSerif = {
-        package = pkgs.ibm-plex;
-        name = "IBM Plex Sans";
-      };
-
-      serif = sansSerif;
-
-      monospace = {
-        package = pkgs.nerd-fonts.blex-mono;
-        name = "BlexMono Nerd Font";
-      };
-    };
-  };
-
-  environment.variables = {
-    TESTKO = "zen-beta";
-  };
+  system.stateVersion = "25.11";
 }

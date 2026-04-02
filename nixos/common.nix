@@ -221,6 +221,13 @@
     };
 
   };
+  services.xserver.enable = true;
+  services.displayManager.sddm.enable = true;
+  services.desktopManager.plasma6.enable = true;
+
+  services.xserver.xkb = {
+    layout = "us";
+  };
 
 
   #################################
@@ -233,7 +240,8 @@
     neovim
     vscode
     jetbrains.pycharm
-    vscodium
+    vscode-extensions.ms-python.python
+    vscode-extensions.esbenp.prettier-vscode
     glances
     fish
     ffmpeg
@@ -242,7 +250,6 @@
     tree-sitter
     nh
     nil
-    nixd # lsp
     nixfmt
     nixfmt-tree
     home-manager
@@ -257,7 +264,6 @@
     fuzzel
     thunderbird
     vlc
-    discord
     libreoffice
     blender
     mangohud
@@ -281,17 +287,17 @@
 
     # GUI utils
     pavucontrol
-    mako
-    swappy
+    # mako
+    # swappy
 
     # Wayland
     xwayland
     xwayland-satellite
     wl-clipboard
     cliphist
-    swaybg
-    swaylock
-    swayidle
+    # swaybg
+    # swaylock
+    # swayidle
 
     # Notifications
     libnotify

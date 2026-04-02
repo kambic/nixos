@@ -28,27 +28,8 @@
 
   zramSwap.enable = false;
 
-  # ─── Nix settings ──────────────────────────────────────────────────────────
-
-  environment.etc."nixd/nixd.json".text = ''
-    {
-      "options": {
-        "nixos": {
-          "expr": "(import <nixpkgs/nixos> {}).options"
-        }
-      }
-    }
-  '';
-
   networking.hostName = "z4";
 
-  services.xserver.enable = true;
-  services.displayManager.sddm.enable = true;
-  services.desktopManager.plasma6.enable = true;
-
-  services.xserver.xkb = {
-    layout = "us";
-  };
 
   services.printing.enable = false;
 

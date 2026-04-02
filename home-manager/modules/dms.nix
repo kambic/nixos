@@ -4,7 +4,8 @@
   inputs,
   dms,
   ...
-}: {
+}:
+{
   imports = [
     dms.homeModules.dank-material-shell
   ];

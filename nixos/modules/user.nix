@@ -1,4 +1,5 @@
-{pkgs, ...}: {
+{ pkgs, ... }:
+{
   #programs.zsh.enable = true;
   programs.fish.enable = true;
 
@@ -8,8 +9,12 @@
     users.kmc = {
       isNormalUser = true;
       description = "Rok Kambic";
-      extraGroups = ["networkmanager" "wheel" "input"];
-      packages = with pkgs; [];
+      extraGroups = [
+        "networkmanager"
+        "wheel"
+        "input"
+      ];
+      packages = with pkgs; [ ];
     };
   };
 }

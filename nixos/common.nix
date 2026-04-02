@@ -4,7 +4,8 @@
   pkgs-stable,
   inputs,
   ...
-}: {
+}:
+{
   imports = [
     ./modules/default.nix
   ];
@@ -12,6 +13,19 @@
   #################################
   # Nix
   #################################
+
+
+  # gpu driver stuff
+  hardware.graphics = {
+    enable = true;
+
+  };
+
+  services.flatpak.enable = true;
+
+  hardware.enableAllFirmware = true;
+  hardware.enableRedistributableFirmware = true;
+
   nix.settings = {
     # max-jobs = 6;
     # cores = 2; # cores per individual builder process
@@ -31,6 +45,7 @@
     ];
     auto-optimise-store = true;
     download-buffer-size = 524288000;
+    # nixPath = [ "nixpkgs=${inputs.nixpkgs}" ];
   };
 
   nix.gc = {
@@ -71,19 +86,19 @@
 
     plymouth = {
       enable = true;
-    #   theme = "catppuccin-mocha";
+      #   theme = "catppuccin-mocha";
     };
   };
 
   # ─── ZRAM swap (prevents OOM freezes during heavy builds like Quickshell) ──
   # Creates a compressed RAM-backed swap device — no disk writes, much faster.
-#   zramSwap = {
-#     enable = true;
-#     algorithm = "zstd"; # best compression/speed ratio
-#     # memoryPercent = 100 means the zram device can hold up to 100% of RAM
-#     # when compressed. Effective real swap is ~2-3x that in practice.
-#     memoryPercent = 100;
-#   };
+  #   zramSwap = {
+  #     enable = true;
+  #     algorithm = "zstd"; # best compression/speed ratio
+  #     # memoryPercent = 100 means the zram device can hold up to 100% of RAM
+  #     # when compressed. Effective real swap is ~2-3x that in practice.
+  #     memoryPercent = 100;
+  #   };
 
   #################################
   # Networking
@@ -162,6 +177,51 @@
       EDITOR = "nvim";
     };
   };
+
+
+  security.sudo.extraRules = [
+    {
+      users = [
+        "rokk"
+        "kmc"
+      ];
+      commands = [
+        {
+          command = "ALL";
+          options = [ "NOPASSWD" ];
+        }
+      ];
+    }
+  ];
+
+  users.users = {
+
+    kmc = {
+      isNormalUser = true;
+      description = "Rok Kambic";
+      extraGroups = [
+        "networkmanager"
+        "wheel"
+      ];
+    };
+
+    rokk = {
+      isNormalUser = true;
+      description = "Rok Kambic";
+      extraGroups = [
+        "networkmanager"
+        "wheel"
+      ];
+      openssh.authorizedKeys.keys = [
+        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKsnY4xKXJzMqSOMVXb7P771QAkL+paZxLDt6nAHkTPO kamba@master"
+      ];
+      packages = with pkgs; [
+        kdePackages.kate
+      ];
+    };
+
+  };
+
 
   #################################
   # System packages (minimal)

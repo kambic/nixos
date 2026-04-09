@@ -76,7 +76,6 @@
         stylix.nixosModules.stylix
       ];
     };
-    
 
     nixosConfigurations.t14 = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
@@ -88,7 +87,7 @@
         inherit inputs system;
       };
       modules = [
-        ./nixos/configuration.nix
+        ./nixos/hosts/laptop/configuration.nix
         home-manager.nixosModules.home-manager
         {
           home-manager = {
@@ -103,7 +102,5 @@
         stylix.nixosModules.stylix
       ];
     };
-    
-
   };
 }

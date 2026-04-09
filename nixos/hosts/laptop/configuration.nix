@@ -1,10 +1,11 @@
-{ config, pkgs, ... }:
-
 {
+  config,
+  pkgs,
+  ...
+}: {
   imports = [
     ../../common.nix
     ./hardware-configuration.nix
-
   ];
 
   #################################
@@ -30,7 +31,19 @@
       "vm.watermark_scale_factor" = 125;
       "vm.page-cluster" = 0; # zram works best with single-page reads
     };
-  # Logind
+  };
+  boot = {
+    loader = {
+      systemd-boot.enable = true;
+      systemd-boot.xbootldrMountPoint = "/boot";
+
+      efi = {
+        canTouchEfiVariables = true;
+        efiSysMountPoint = "/efi";
+      };
+    };
+  };
+  # ─── Logind ────────────────────────────────────────────────────────────────
   # https://www.freedesktop.org/software/systemd/man/latest/logind.conf.html
   services.logind.settings.Login = {
     HandleLidSwitch = "hibernate";
@@ -86,14 +99,13 @@
       commands = [
         {
           command = "ALL";
-          options = [ "NOPASSWD" ];
+          options = ["NOPASSWD"];
         }
       ];
     }
   ];
 
   users.users = {
-
     kmc = {
       isNormalUser = true;
       description = "Rok Kambic";
@@ -117,7 +129,6 @@
         kdePackages.kate
       ];
     };
-
   };
 
   services.openssh = {

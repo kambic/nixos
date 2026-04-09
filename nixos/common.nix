@@ -71,19 +71,19 @@
 
     plymouth = {
       enable = true;
-    #   theme = "catppuccin-mocha";
+      #   theme = "catppuccin-mocha";
     };
   };
 
   # ─── ZRAM swap (prevents OOM freezes during heavy builds like Quickshell) ──
   # Creates a compressed RAM-backed swap device — no disk writes, much faster.
-#   zramSwap = {
-#     enable = true;
-#     algorithm = "zstd"; # best compression/speed ratio
-#     # memoryPercent = 100 means the zram device can hold up to 100% of RAM
-#     # when compressed. Effective real swap is ~2-3x that in practice.
-#     memoryPercent = 100;
-#   };
+  #   zramSwap = {
+  #     enable = true;
+  #     algorithm = "zstd"; # best compression/speed ratio
+  #     # memoryPercent = 100 means the zram device can hold up to 100% of RAM
+  #     # when compressed. Effective real swap is ~2-3x that in practice.
+  #     memoryPercent = 100;
+  #   };
 
   #################################
   # Networking
@@ -147,9 +147,9 @@
     ];
 
     fontconfig.defaultFonts = {
-      serif = [ "Liberation Serif" ];
-      sansSerif = [ "Inter" ];
-      monospace = [ "JetBrainsMono Nerd Font" ];
+      serif = ["Liberation Serif"];
+      sansSerif = ["Inter"];
+      monospace = ["JetBrainsMono Nerd Font"];
     };
   };
 

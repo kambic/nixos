@@ -1,10 +1,11 @@
-{ config, pkgs, ... }:
-
 {
+  config,
+  pkgs,
+  ...
+}: {
   imports = [
     ../../common.nix
     ./hardware-configuration.nix
-
   ];
 
   #################################
@@ -30,17 +31,6 @@
 
   # ─── Nix settings ──────────────────────────────────────────────────────────
 
-
-  environment.etc."nixd/nixd.json".text = ''
-    {
-      "options": {
-        "nixos": {
-          "expr": "(import <nixpkgs/nixos> {}).options"
-        }
-      }
-    }
-  '';
-
   networking.hostName = "z4";
 
   services.xserver.enable = true;
@@ -62,17 +52,16 @@
       commands = [
         {
           command = "ALL";
-          options = [ "NOPASSWD" ];
+          options = ["NOPASSWD"];
         }
       ];
     }
   ];
 
   users.users = {
-
     kmc = {
       isNormalUser = true;
-      description = "Rok Kambic";
+      description = "KmC";
       extraGroups = [
         "networkmanager"
         "wheel"
@@ -93,7 +82,6 @@
         kdePackages.kate
       ];
     };
-
   };
 
   services.openssh = {
@@ -108,20 +96,17 @@
 
   services.postgresql = {
     enable = true;
-      package = pkgs.postgresql_17;
-    ensureDatabases = [ "kmc" ];
-    ensureUsers = [ 
-      
-        {
-    name = "alligator";
-  }
-  {
-    name = "kmc";
-    ensureDBOwnership = true;
-  }
-
-      
-      ];
+    package = pkgs.postgresql_17;
+    ensureDatabases = ["kmc"];
+    ensureUsers = [
+      {
+        name = "alligator";
+      }
+      {
+        name = "kmc";
+        ensureDBOwnership = true;
+      }
+    ];
     authentication = pkgs.lib.mkOverride 10 ''
       #type database  DBuser  auth-method
       local all       all     trust

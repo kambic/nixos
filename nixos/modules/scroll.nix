@@ -1,4 +1,8 @@
-{ pkgs, inputs, ...}: {
+{
+  pkgs,
+  inputs,
+  ...
+}: {
   #imports = [ inputs.scroll-flake.nixosModules.default ];
 
   programs.scroll = {

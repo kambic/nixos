@@ -3,7 +3,7 @@
     ./git.nix
     ./fish.nix
     ./stylix.nix
-    ./noctalia.nix
+    # ./noctalia.nix
     ./dms.nix
   ];
 }

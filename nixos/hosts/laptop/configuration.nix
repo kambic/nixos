@@ -11,19 +11,17 @@
   #################################
   # Boot
   #################################
-  swapDevices = [
-    {
-      device = "/var/lib/swapfile";
-      size = 16 * 1024; # 16 GiB
-    }
-  ];
+  # ─── ZRAM swap (prevents OOM freezes during heavy builds like Quickshell) ──
+  # Creates a compressed RAM-backed swap device — no disk writes, much faster.
+  zramSwap = {
+    enable = true;
+    algorithm = "zstd"; # best compression/speed ratio
+    # memoryPercent = 100 means the zram device can hold up to 100% of RAM
+    # when compressed. Effective real swap is ~2-3x that in practice.
+    memoryPercent = 100;
+  };
   boot = {
     kernelParams = [
-      "zswap.enabled=1" # enables zswap
-      "zswap.compressor=lz4" # compression algorithm
-      "zswap.max_pool_percent=20" # maximum percentage of RAM that zswap is allowed to use
-      "zswap.shrinker_enabled=1" # whether to shrink the pool proactively on high memory pressure
-
       "amd_pstate=active"
       "amdgpu.gpu_recovery=1"
       "acpi.ec_no_wakeup=1"
@@ -44,8 +42,11 @@
   };
   boot = {
     loader = {
-      systemd-boot.enable = true;
-      systemd-boot.xbootldrMountPoint = "/boot";
+      grub = {
+        enable = true;
+        device = "nodev"; # "nodev" is used for UEFI
+        efiSupport = true;
+      };
 
       efi = {
         canTouchEfiVariables = true;
@@ -53,8 +54,6 @@
       };
     };
   };
-
-
 
   environment.etc."nixd/nixd.json".text = ''
     {

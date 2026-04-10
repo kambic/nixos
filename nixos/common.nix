@@ -23,36 +23,6 @@
   hardware.enableAllFirmware = true;
   hardware.enableRedistributableFirmware = true;
 
-  nix.settings = {
-    # max-jobs = 6;
-    # cores = 2; # cores per individual builder process
-    substituters = [
-      "https://cache.nixos.org"
-      "https://noctalia.cachix.org"
-      "https://niri.cachix.org" # ← niri-flake binary cache
-    ];
-    trusted-public-keys = [
-      "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
-      "noctalia.cachix.org-1:FZ3ALcCPf2vd5ZfNMT1v3yLVaSN/yHjFyJJv6VGy7MY="
-      "niri.cachix.org-1:Wv0OmO7PsuocRKzfry9N242KbEMHfDLqJbfnssqvFiM=" # ← niri-flake key
-    ];
-    experimental-features = [
-      "nix-command"
-      "flakes"
-    ];
-    auto-optimise-store = true;
-    download-buffer-size = 524288000;
-    # nixPath = [ "nixpkgs=${inputs.nixpkgs}" ];
-  };
-
-  nix.gc = {
-    automatic = true;
-    dates = "weekly";
-    options = "--delete-older-than 7d";
-  };
-
-  nixpkgs.config.allowUnfree = true;
-
   #################################
   # Boot
   #################################
@@ -208,6 +178,8 @@
       ];
     };
   };
+  services.fstrim.enable = true;
+
   services.xserver.enable = true;
   services.displayManager.sddm.enable = true;
   services.desktopManager.plasma6.enable = true;
@@ -225,9 +197,10 @@
     git
     neovim
     vscode
-    jetbrains.pycharm
+    vscode-extensions.jnoortheen.nix-ide
     vscode-extensions.ms-python.python
     vscode-extensions.esbenp.prettier-vscode
+    jetbrains.pycharm
     glances
     fish
     ffmpeg
@@ -248,10 +221,7 @@
     kitty
     alacritty
     fuzzel
-    thunderbird
-    vlc
-    libreoffice
-    blender
+    mpv
     mangohud
     via
 
@@ -264,7 +234,6 @@
     bluez
     bluez-tools
     pciutils
-    aria2
     rar
     unrar
     lazygit
@@ -289,13 +258,10 @@
     libnotify
 
     # Stable packages
-    pkgs-stable.bottles
-    pkgs-stable.texlab
+    # pkgs-stable.bottles
+    # pkgs-stable.texlab
 
     # From flake inputs
-    inputs.zen-browser.packages.${pkgs.stdenv.hostPlatform.system}.default
-    xivlauncher
-    protonplus
-    forge-mtg
+    # inputs.zen-browser.packages.${pkgs.stdenv.hostPlatform.system}.default
   ];
 }

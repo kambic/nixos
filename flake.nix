@@ -80,6 +80,7 @@
       modules = [
         ./nixos/hosts/laptop/configuration.nix
         nixos-hardware.nixosModules.lenovo-thinkpad-t14-amd-gen5
+        stylix.nixosModules.stylix
         home-manager.nixosModules.home-manager
         {
           home-manager = {
@@ -91,7 +92,6 @@
             extraSpecialArgs = {inherit inputs user dms;};
           };
         }
-        stylix.nixosModules.stylix
       ];
     };
   };

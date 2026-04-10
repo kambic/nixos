@@ -24,8 +24,8 @@
 
     niri = {
       url = "github:sodiboo/niri-flake";
-      inputs.nixpkgs.follows = "nixpkgs";
     };
+
 
     dms = {
       url = "github:AvengeMedia/DankMaterialShell/stable";

@@ -1,5 +1,6 @@
-{pkgs, ...}: {
-  environment.systemPackages = [pkgs.cachix];
+{ pkgs, ... }:
+{
+  environment.systemPackages = [ pkgs.cachix ];
 
   nix.settings = {
     substituters = [

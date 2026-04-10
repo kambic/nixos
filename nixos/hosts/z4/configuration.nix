@@ -29,60 +29,11 @@
 
   zramSwap.enable = false;
 
-  # ─── Nix settings ──────────────────────────────────────────────────────────
-
   networking.hostName = "z4";
 
-  services.xserver.enable = true;
-  services.displayManager.sddm.enable = true;
-  services.desktopManager.plasma6.enable = true;
-
-  services.xserver.xkb = {
-    layout = "us";
-  };
 
   services.printing.enable = false;
 
-  security.sudo.extraRules = [
-    {
-      users = [
-        "rokk"
-        "kmc"
-      ];
-      commands = [
-        {
-          command = "ALL";
-          options = ["NOPASSWD"];
-        }
-      ];
-    }
-  ];
-
-  users.users = {
-    kmc = {
-      isNormalUser = true;
-      description = "KmC";
-      extraGroups = [
-        "networkmanager"
-        "wheel"
-      ];
-    };
-
-    rokk = {
-      isNormalUser = true;
-      description = "Rok Kambic";
-      extraGroups = [
-        "networkmanager"
-        "wheel"
-      ];
-      openssh.authorizedKeys.keys = [
-        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKsnY4xKXJzMqSOMVXb7P771QAkL+paZxLDt6nAHkTPO kamba@master"
-      ];
-      packages = with pkgs; [
-        kdePackages.kate
-      ];
-    };
-  };
 
   services.openssh = {
     enable = true;
@@ -97,8 +48,9 @@
   services.postgresql = {
     enable = true;
     package = pkgs.postgresql_17;
-    ensureDatabases = ["kmc"];
+    ensureDatabases = [ "kmc" ];
     ensureUsers = [
+
       {
         name = "alligator";
       }
@@ -106,6 +58,7 @@
         name = "kmc";
         ensureDBOwnership = true;
       }
+
     ];
     authentication = pkgs.lib.mkOverride 10 ''
       #type database  DBuser  auth-method

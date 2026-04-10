@@ -47,7 +47,7 @@
 
   security.polkit.enable = true;
   services.gnome.gnome-keyring.enable = true;
-  security.pam.services.swaylock = {};
+  security.pam.services.swaylock = { };
   programs.dconf.enable = true;
   services.dbus.enable = true;
 

@@ -1,10 +1,7 @@
+{ user, inputs, ... }:
 {
-  user,
-  inputs,
-  ...
-}: {
   imports = [
-    inputs.niri.homeModules.niri
+  inputs.niri.homeModules.niri
     ./modules/default.nix
   ];
 

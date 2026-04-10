@@ -3,8 +3,9 @@
   pkgs,
   inputs,
   ...
-}: {
-  imports = [inputs.stylix.homeModules.stylix];
+}:
+{
+  imports = [ inputs.stylix.homeModules.stylix ];
 
   home.packages = with pkgs; [
     jetbrains-mono

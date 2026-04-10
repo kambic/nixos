@@ -4,7 +4,8 @@
   pkgs-stable,
   inputs,
   ...
-}: {
+}:
+{
   imports = [
     ./modules/default.nix
   ];
@@ -12,6 +13,19 @@
   #################################
   # Nix
   #################################
+
+
+  # gpu driver stuff
+  hardware.graphics = {
+    enable = true;
+
+  };
+
+  services.flatpak.enable = true;
+
+  hardware.enableAllFirmware = true;
+  hardware.enableRedistributableFirmware = true;
+
   nix.settings = {
     # max-jobs = 6;
     # cores = 2; # cores per individual builder process
@@ -31,6 +45,7 @@
     ];
     auto-optimise-store = true;
     download-buffer-size = 524288000;
+    # nixPath = [ "nixpkgs=${inputs.nixpkgs}" ];
   };
 
   nix.gc = {
@@ -156,6 +171,58 @@
     };
   };
 
+
+  security.sudo.extraRules = [
+    {
+      users = [
+        "rokk"
+        "kmc"
+      ];
+      commands = [
+        {
+          command = "ALL";
+          options = [ "NOPASSWD" ];
+        }
+      ];
+    }
+  ];
+
+  users.users = {
+
+    kmc = {
+      isNormalUser = true;
+      description = "Rok Kambic";
+      extraGroups = [
+        "networkmanager"
+        "wheel"
+      ];
+    };
+
+    rokk = {
+      isNormalUser = true;
+      description = "Rok Kambic";
+      extraGroups = [
+        "networkmanager"
+        "wheel"
+      ];
+      openssh.authorizedKeys.keys = [
+        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKsnY4xKXJzMqSOMVXb7P771QAkL+paZxLDt6nAHkTPO kamba@master"
+      ];
+      packages = with pkgs; [
+        kdePackages.kate
+      ];
+    };
+
+  };
+  services.xserver.enable = true;
+  services.displayManager.sddm.enable = true;
+  services.desktopManager.plasma6.enable = true;
+
+  services.xserver.xkb = {
+    layout = "us";
+  };
+
+
   #################################
   # System packages (minimal)
   #################################
@@ -166,7 +233,8 @@
     neovim
     vscode
     jetbrains.pycharm
-    vscodium
+    vscode-extensions.ms-python.python
+    vscode-extensions.esbenp.prettier-vscode
     glances
     fish
     ffmpeg
@@ -175,7 +243,6 @@
     tree-sitter
     nh
     nil
-    nixd # lsp
     nixfmt
     nixfmt-tree
     home-manager
@@ -190,7 +257,6 @@
     fuzzel
     thunderbird
     vlc
-    discord
     libreoffice
     blender
     mangohud
@@ -214,17 +280,17 @@
 
     # GUI utils
     pavucontrol
-    mako
-    swappy
+    # mako
+    # swappy
 
     # Wayland
     xwayland
     xwayland-satellite
     wl-clipboard
     cliphist
-    swaybg
-    swaylock
-    swayidle
+    # swaybg
+    # swaylock
+    # swayidle
 
     # Notifications
     libnotify

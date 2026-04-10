@@ -1,5 +1,4 @@
-{ pkgs, ... }:
-{
+{pkgs, ...}: {
   #programs.zsh.enable = true;
   programs.fish.enable = true;
 
@@ -14,7 +13,7 @@
         "wheel"
         "input"
       ];
-      packages = with pkgs; [ ];
+      packages = with pkgs; [];
     };
   };
 }

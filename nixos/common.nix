@@ -4,8 +4,7 @@
   pkgs-stable,
   inputs,
   ...
-}:
-{
+}: {
   imports = [
     ./modules/default.nix
   ];
@@ -14,11 +13,9 @@
   # Nix
   #################################
 
-
   # gpu driver stuff
   hardware.graphics = {
     enable = true;
-
   };
 
   services.flatpak.enable = true;
@@ -171,7 +168,6 @@
     };
   };
 
-
   security.sudo.extraRules = [
     {
       users = [
@@ -181,14 +177,13 @@
       commands = [
         {
           command = "ALL";
-          options = [ "NOPASSWD" ];
+          options = ["NOPASSWD"];
         }
       ];
     }
   ];
 
   users.users = {
-
     kmc = {
       isNormalUser = true;
       description = "Rok Kambic";
@@ -212,7 +207,6 @@
         kdePackages.kate
       ];
     };
-
   };
   services.xserver.enable = true;
   services.displayManager.sddm.enable = true;
@@ -221,7 +215,6 @@
   services.xserver.xkb = {
     layout = "us";
   };
-
 
   #################################
   # System packages (minimal)

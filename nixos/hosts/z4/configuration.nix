@@ -31,9 +31,7 @@
 
   networking.hostName = "z4";
 
-
   services.printing.enable = false;
-
 
   services.openssh = {
     enable = true;
@@ -48,9 +46,8 @@
   services.postgresql = {
     enable = true;
     package = pkgs.postgresql_17;
-    ensureDatabases = [ "kmc" ];
+    ensureDatabases = ["kmc"];
     ensureUsers = [
-
       {
         name = "alligator";
       }
@@ -58,7 +55,6 @@
         name = "kmc";
         ensureDBOwnership = true;
       }
-
     ];
     authentication = pkgs.lib.mkOverride 10 ''
       #type database  DBuser  auth-method

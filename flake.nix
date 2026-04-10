@@ -5,7 +5,7 @@
     # NixOS official package source
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-25.11";
-
+    nixos-hardware.url = "github:NixOS/nixos-hardware/master";
     # home-manager
     home-manager = {
       url = "github:nix-community/home-manager";
@@ -17,15 +17,9 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    zen-browser = {
-      url = "github:youwen5/zen-browser-flake";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
     niri = {
       url = "github:sodiboo/niri-flake";
     };
-
 
     dms = {
       url = "github:AvengeMedia/DankMaterialShell/stable";
@@ -39,6 +33,7 @@
     nixpkgs-stable,
     home-manager,
     stylix,
+    nixos-hardware,
     dms,
     ...
   } @ inputs: let
@@ -84,6 +79,7 @@
       };
       modules = [
         ./nixos/hosts/laptop/configuration.nix
+        nixos-hardware.nixosModules.lenovo-thinkpad-t14-amd-gen5
         home-manager.nixosModules.home-manager
         {
           home-manager = {

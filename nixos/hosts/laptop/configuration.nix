@@ -11,9 +11,19 @@
   #################################
   # Boot
   #################################
-
+  swapDevices = [
+    {
+      device = "/var/lib/swapfile";
+      size = 16 * 1024; # 16 GiB
+    }
+  ];
   boot = {
     kernelParams = [
+      "zswap.enabled=1" # enables zswap
+      "zswap.compressor=lz4" # compression algorithm
+      "zswap.max_pool_percent=20" # maximum percentage of RAM that zswap is allowed to use
+      "zswap.shrinker_enabled=1" # whether to shrink the pool proactively on high memory pressure
+
       "amd_pstate=active"
       "amdgpu.gpu_recovery=1"
       "acpi.ec_no_wakeup=1"
@@ -43,30 +53,8 @@
       };
     };
   };
-  # ─── Logind ────────────────────────────────────────────────────────────────
-  # https://www.freedesktop.org/software/systemd/man/latest/logind.conf.html
-  services.logind.settings.Login = {
-    HandleLidSwitch = "hibernate";
-    HandleLidSwitchExternalPower = "ignore";
-    HandlePowerKey = "hibernate";
-    HandlePowerKeyLongPress = "poweroff";
-  };
 
-  # ─── Nix settings ──────────────────────────────────────────────────────────
-  nix.settings = {
-    # max-jobs = 6;
-    # cores = 2; # cores per individual builder process
-    substituters = [
-      "https://cache.nixos.org"
-      "https://noctalia.cachix.org"
-      "https://niri.cachix.org" # ← niri-flake binary cache
-    ];
-    trusted-public-keys = [
-      "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
-      "noctalia.cachix.org-1:FZ3ALcCPf2vd5ZfNMT1v3yLVaSN/yHjFyJJv6VGy7MY="
-      "niri.cachix.org-1:Wv0OmO7PsuocRKzfry9N242KbEMHfDLqJbfnssqvFiM=" # ← niri-flake key
-    ];
-  };
+
 
   environment.etc."nixd/nixd.json".text = ''
     {

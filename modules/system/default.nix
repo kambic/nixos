@@ -1,11 +1,13 @@
-{ pkgs, inputs, ... }:
-
 {
+  pkgs,
+  inputs,
+  ...
+}: {
   # ─── Basic system ──────────────────────────────────────────────────────────
-  time.timeZone = "Europe/Ljubljana"; # ← change to your timezone
+  time.timeZone = "Europe/Ljubljana";
   i18n.defaultLocale = "en_US.UTF-8";
 
-  networking.hostName = "nixer"; # ← change to your hostname
+  networking.hostName = "t14";
 
   # ─── Bootloader ────────────────────────────────────────────────────────────
   boot = {
@@ -84,7 +86,7 @@
   # XDG portals — needed for screen sharing, file pickers, etc.
   xdg.portal = {
     enable = true;
-    extraPortals = [ pkgs.xdg-desktop-portal-gnome ];
+    extraPortals = [pkgs.xdg-desktop-portal-gnome];
     config.common.default = "*";
   };
 
@@ -131,7 +133,7 @@
   ];
 
   # ─── PAM (required by Noctalia's lock screen) ──────────────────────────────
-  security.pam.services.login = { };
+  security.pam.services.login = {};
 
   system.stateVersion = "25.05";
 }

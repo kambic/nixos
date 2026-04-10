@@ -1,5 +1,7 @@
 {user, ...}: {
   imports = [
+    
+  inputs.niri.homeModules.niri
     ./modules/default.nix
   ];
 

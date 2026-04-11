@@ -1,8 +1,8 @@
 {
-  networking.wireless.iwd.enable = true;
+  # networking.wireless.iwd.enable = true;
 
   networking.networkmanager.enable = true;
   networking.networkmanager.wifi.powersave = false;
 
-  networking.networkmanager.wifi.backend = "iwd";
+  networking.networkmanager.wifi.backend = "wpa_supplicant";
 }

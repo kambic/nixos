@@ -31,11 +31,9 @@
     targets.grub.enable = true;
     targets.fish.enable = true;
     targets.gtk.enable = true;
+    targets.kde.enable = true;
     targets.plymouth.enable = true;
-    targets.qt = {
-      enable = true;
-      platform = "qtct"; # This replaces the 'kde' default that is causing the warning
-    };
+
   };
 
 
@@ -62,7 +60,6 @@
 
     plymouth = {
       enable = true;
-      # theme = "stylix";
     };
   };
 
@@ -152,11 +149,12 @@
       ];
     }
   ];
+  
 
   users.users = {
     kmc = {
       isNormalUser = true;
-      description = "Rok Kambic";
+      description = "KmC";
       extraGroups = [
         "networkmanager"
         "wheel"
@@ -182,9 +180,8 @@
 
   services.displayManager.sddm.enable = true;
 
-  services.xserver.xkb = {
-    layout = "us";
-  };
+  services.desktopManager.plasma6.enable = true;
+  services.displayManager.sddm.wayland.enable = true;
 
   #################################
   # System packages (minimal)

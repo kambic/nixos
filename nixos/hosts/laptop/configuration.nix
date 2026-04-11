@@ -92,31 +92,6 @@
     }
   ];
 
-  users.users = {
-    kmc = {
-      isNormalUser = true;
-      description = "Rok Kambic";
-      extraGroups = [
-        "networkmanager"
-        "wheel"
-      ];
-    };
-
-    rokk = {
-      isNormalUser = true;
-      description = "Rok Kambic";
-      extraGroups = [
-        "networkmanager"
-        "wheel"
-      ];
-      openssh.authorizedKeys.keys = [
-        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKsnY4xKXJzMqSOMVXb7P771QAkL+paZxLDt6nAHkTPO kamba@master"
-      ];
-      packages = with pkgs; [
-        kdePackages.kate
-      ];
-    };
-  };
 
   services.openssh = {
     enable = true;

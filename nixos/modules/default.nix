@@ -1,12 +1,12 @@
 {
   imports = [
+    ./cachix.nix
     ./bluetooth.nix
     ./sound.nix
     ./network.nix
-    ./user.nix
+    # ./user.nix
     ./steam.nix
-    ./cachix.nix
     # ./niri.nix
-    ./yazi.nix
+    # ./yazi.nix
   ];
 }

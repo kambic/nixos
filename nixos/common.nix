@@ -26,30 +26,30 @@
     enable = true;
     base16Scheme = "${pkgs.base16-schemes}/share/themes/tokyo-night-dark.yaml";
     # image = ./path/to/your/wallpaper.png; # Stylix will extract colors from this
-# base16Scheme = "${pkgs.base16-schemes}/share/themes/gruvbox-dark-hard.yaml";
+    # base16Scheme = "${pkgs.base16-schemes}/share/themes/gruvbox-dark-hard.yaml";
     # This ensures Stylix targets the bootloader and splash
     targets.grub.enable = true;
     targets.plymouth.enable = true;
     targets.qt = {
-  enable = true;
-  platform = "qtct"; # This replaces the 'kde' default that is causing the warning
-};
+      enable = true;
+      platform = "qtct"; # This replaces the 'kde' default that is causing the warning
+    };
   };
 
   stylix.targets = {
-  # Keep these for your boot/system look
-  grub.enable = true;
-  plymouth.enable = true;
-  
-  # Ensure these are set for Niri/Wayland apps
-  niri.enable = true;
-  gtk.enable = true;
-  
-  # Disable things you aren't using to avoid extra warnings
-  gnome.enable = false;
-  kde.enable = false;
-  xfce.enable = false;
-};
+    # Keep these for your boot/system look
+    grub.enable = true;
+    plymouth.enable = true;
+
+    # Ensure these are set for Niri/Wayland apps
+    niri.enable = true;
+    gtk.enable = true;
+
+    # Disable things you aren't using to avoid extra warnings
+    gnome.enable = false;
+    kde.enable = false;
+    xfce.enable = false;
+  };
 
   #################################
   # Boot

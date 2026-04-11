@@ -65,10 +65,7 @@
 
             extraSpecialArgs = {inherit inputs user dms niri;};
           };
-        }  # 1. Enable Stylix here ONLY
-
-
-
+        } # 1. Enable Stylix here ONLY
       ];
     };
 

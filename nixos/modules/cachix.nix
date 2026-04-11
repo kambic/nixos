@@ -1,7 +1,6 @@
 {pkgs, ...}: {
   environment.systemPackages = [pkgs.cachix];
 
-
   nix.gc = {
     automatic = true;
     dates = "weekly";
@@ -9,7 +8,6 @@
   };
 
   nixpkgs.config.allowUnfree = true;
-
 
   nix.settings = {
     substituters = [
@@ -29,6 +27,5 @@
     auto-optimise-store = true;
     download-buffer-size = 524288000;
     # nixPath = [ "nixpkgs=${inputs.nixpkgs}" ];
-
   };
 }

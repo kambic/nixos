@@ -22,6 +22,14 @@
 
   hardware.enableAllFirmware = true;
   hardware.enableRedistributableFirmware = true;
+  stylix = {
+    enable = true;
+    # image = ./path/to/your/wallpaper.png; # Stylix will extract colors from this
+base16Scheme = "${pkgs.base16-schemes}/share/themes/gruvbox-dark-hard.yaml";
+    # This ensures Stylix targets the bootloader and splash
+    targets.grub.enable = true;
+    targets.plymouth.enable = true;
+  };
 
   #################################
   # Boot
@@ -46,7 +54,7 @@
 
     plymouth = {
       enable = true;
-      #   theme = "catppuccin-mocha";
+      # theme = "stylix";
     };
   };
 
@@ -64,12 +72,9 @@
   # Networking
   #################################
 
-  networking.networkmanager.enable = true;
-
   #################################
   # Locale
   #################################
-
   i18n.defaultLocale = "en_US.UTF-8";
 
   i18n.extraLocaleSettings = {
@@ -83,19 +88,6 @@
     LC_TELEPHONE = "sl_SI.UTF-8";
     LC_TIME = "sl_SI.UTF-8";
   };
-
-  #################################
-  # Audio
-  #################################
-
-  services.pipewire = {
-    enable = true;
-    alsa.enable = true;
-    alsa.support32Bit = true;
-    pulse.enable = true;
-  };
-
-  security.rtkit.enable = true;
 
   #################################
   # Programs
@@ -180,9 +172,7 @@
   };
   services.fstrim.enable = true;
 
-  services.xserver.enable = true;
   services.displayManager.sddm.enable = true;
-  services.desktopManager.plasma6.enable = true;
 
   services.xserver.xkb = {
     layout = "us";

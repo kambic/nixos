@@ -6,7 +6,7 @@
     ./user.nix
     ./steam.nix
     ./cachix.nix
-    ./niri.nix
+    # ./niri.nix
     ./yazi.nix
   ];
 }
